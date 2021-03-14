@@ -8,8 +8,6 @@ public class Main {
         String filePathOne, filePathTwo;
         FileReader firstInput, secondInput;
         Scanner consoleIn = new Scanner(System.in);
-        //LoadFile(" первому", firstInput);
-      //  LoadFile("о второму", secondInput);
 
         while(true) {
             System.out.println("Введите полный путь к первому файлу:");
@@ -82,21 +80,4 @@ public class Main {
         firstInput.close();
         secondInput.close();
     }
-    /*
-    private static void LoadFile(String outputText, FileReader fileStream) {
-        while(true) {
-            System.out.println("Введите полный путь к" + outputText + " файлу:");
-            String filePath = consoleIn.nextLine();
-            try{
-                fileStream = new FileReader(filePath);
-            }
-            catch (FileNotFoundException e) {
-                System.out.println("Такого файла не существует или путь некорректен");
-                continue;
-            }
-            break;
-        }
-
-
-    }*/
 }
