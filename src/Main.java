@@ -2,63 +2,41 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Main {
-
-
     public static void main(String[] args) throws Exception {
-        String filePathOne, filePathTwo;
         FileReader firstInput, secondInput;
-        Scanner consoleIn = new Scanner(System.in);
 
-        while(true) {
-            System.out.println("Введите полный путь к первому файлу:");
-            filePathOne = consoleIn.nextLine();
-            try{
-                firstInput = new FileReader(filePathOne);
-            }
-            catch (FileNotFoundException e) {
-                System.out.println("Такого файла не существует или путь некорректен");
-                continue;
-            }
-            break;
-        }
-        while(true) {
-            System.out.println("Введите полный путь ко второму файлу:");
-            filePathTwo = consoleIn.nextLine();
-            try{
-                secondInput = new FileReader(filePathTwo);
-            }
-            catch (FileNotFoundException e) {
-                System.out.println("Такого файла не существует или путь некорректен");
-                continue;
-            }
-            break;
-        }
+        firstInput = LoadFile(" первому"); // загрузка файлов
+        secondInput = LoadFile("о второму");
 
         System.out.println("Список отличий:");
 
         int charOne = firstInput.read(), charTwo = secondInput.read(),
-                charPosition = 1;
+                charPosition = 1; // порядковый номер символа в файлах
         boolean isAnyDifferences = false;
-        try{
-            while (charOne != -1 && charTwo != -1) {
-                if(charOne != charTwo) {
-                    if(charPosition == 1) {
-                        System.out.println("№\tfile1\tfile2");
-                    }
-                    isAnyDifferences = true;
-                    System.out.println(charPosition + "\t" + (char)charOne +
-                            "    \t" + (char)charTwo);
+
+
+        while (charOne != -1 && charTwo != -1) { // пока не закончится один из файлов, считываем посимвольно
+            if (charOne != charTwo) {
+                if (charPosition == 1) { // если впервые обнаружили различие, выводим шапку таблицы
+                    System.out.println("№\tfile1\tfile2");
                 }
-                charPosition++;
+                isAnyDifferences = true;
+                System.out.println(charPosition + "\t" + (char)charOne +
+                        "    \t" + (char)charTwo);
+            }
+            charPosition++;
+            try{
                 charOne = firstInput.read();
                 charTwo = secondInput.read();
             }
-        }
-        catch (Exception e){
-            System.out.println("Ошибка чтения файлов");
+            catch (Exception e){
+                System.out.println("Ошибка чтения файлов");
+            }
         }
 
-        String fileNumber, textBeginning;
+
+        String fileNumber, textBeginning; // временные строки для генерации сообщения
+                                          // на случай большого количества различающихся символов
         if (!isAnyDifferences){
             System.out.println("Отличий нет");
         }
@@ -77,7 +55,22 @@ public class Main {
             }
             System.out.println(textBeginning + " символы " + fileNumber + " файла, начиная с " + charPosition);
         }
+
         firstInput.close();
         secondInput.close();
+    }
+
+    private static FileReader LoadFile(String outputText) {
+        Scanner consoleIn = new Scanner(System.in);
+        while(true) {
+            System.out.println("Введите полный путь к" + outputText + " файлу. Например, E:\\example.txt");
+            String filePath = consoleIn.nextLine();
+            try{
+                return new FileReader(filePath);
+            }
+            catch (FileNotFoundException e) {
+                System.out.println("Такого файла не существует или путь некорректен");
+            }
+        }
     }
 }
