@@ -2,42 +2,12 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Main {
-    static Scanner consoleIn = new Scanner(System.in);
-
     public static void main(String[] args) throws Exception {
         String filePathOne, filePathTwo;
-        FileReader firstInput = null, secondInput = null;
-        //Scanner consoleIn = new Scanner(System.in);
-        LoadFile(" первому", firstInput);
-        LoadFile("о второму", secondInput);
-        /*
-        while(true) {
-            System.out.println("Введите полный путь к первому файлу:");
-            filePathOne = consoleIn.nextLine();
-            try{
-                firstInput = new FileReader(filePathOne);
-            }
-            catch (FileNotFoundException e) {
-                System.out.println("Такого файла не существует или путь некорректен");
-                continue;
-            }
-            break;
-        }
-        while(true) {
-            System.out.println("Введите полный путь ко второму файлу:");
-            filePathTwo = consoleIn.nextLine();
-            try{
-                secondInput = new FileReader(filePathTwo);
-            }
-            catch (FileNotFoundException e) {
-                System.out.println("Такого файла не существует или путь некорректен");
-                continue;
-            }
-            break;
-        }
-*/
+        FileReader firstInput = LoadFile(" первому", firstInput),
+                   secondInput = LoadFile("о второму", secondInput);
+        
         System.out.println("Список отличий:");
-
         int charOne = firstInput.read(), charTwo = secondInput.read(),
                 charPosition = 1;
         boolean isAnyDifferences = false;
@@ -82,18 +52,18 @@ public class Main {
         firstInput.close();
         secondInput.close();
     }
-    private static void LoadFile(String outputText, FileReader fileStream) {
-        while(true) {
-            System.out.println("Введите полный путь к" + outputText + " файлу:");
-            String filePath = consoleIn.nextLine();
+    
+    private static FileReader LoadFile(String outputText, FileReader fileStream) {
+        final Scanner sc = new Scanner(System.in);
+        System.out.println("Введите полный путь к" + outputText + " файлу:");
+        while(true)
             try{
-                fileStream = new FileReader(filePath);
+                return new FileReader(sc.nextLine());
+            }catch (FileNotFoundException e) {
+                System.out.println("Ошибка c cообщением - " + e.getMessage() + "\nПовторите ввод пути к файлу.");
+            }finaly {
+                sc.close();
             }
-            catch (FileNotFoundException e) {
-                System.out.println("Такого файла не существует или путь некорректен");
-                continue;
-            }
-            break;
-        }
+        return null;//Вероятнее всего, этот возврат не пригодится и если ide предложит его удалить, удаляй =)
     }
 }
