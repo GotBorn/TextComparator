@@ -2,15 +2,15 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Main {
-
+    static Scanner consoleIn = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
         String filePathOne, filePathTwo;
-        FileReader firstInput, secondInput;
-        Scanner consoleIn = new Scanner(System.in);
-        //LoadFile(" первому", firstInput);
-      //  LoadFile("о второму", secondInput);
-
+        FileReader firstInput = null, secondInput = null;
+        //Scanner consoleIn = new Scanner(System.in);
+        LoadFile(" первому", firstInput);
+        LoadFile("о второму", secondInput);
+        /*
         while(true) {
             System.out.println("Введите полный путь к первому файлу:");
             filePathOne = consoleIn.nextLine();
@@ -35,7 +35,7 @@ public class Main {
             }
             break;
         }
-
+*/
         System.out.println("Список отличий:");
 
         int charOne = firstInput.read(), charTwo = secondInput.read(),
@@ -82,7 +82,6 @@ public class Main {
         firstInput.close();
         secondInput.close();
     }
-    /*
     private static void LoadFile(String outputText, FileReader fileStream) {
         while(true) {
             System.out.println("Введите полный путь к" + outputText + " файлу:");
@@ -96,7 +95,5 @@ public class Main {
             }
             break;
         }
-
-
-    }*/
+    }
 }
